@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeAddressTransaction.cs" />
+    <Compile Include="change\ChangeEmployeeTransaction.cs" />
+    <Compile Include="change\ChangeNameTransaction.cs" />
     <Compile Include="employee\AddCommissionedEmployee.cs" />
     <Compile Include="employee\AddEmployeeTransaction.cs" />
     <Compile Include="employee\AddHourlyEmployee.cs" />

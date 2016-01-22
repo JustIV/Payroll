@@ -132,7 +132,7 @@ namespace PayrollTest_Nikolaev
         [TestMethod]
         public void AddServiceCharge()
         {
-            int empId = 9;
+            int empId = 1;
             AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
             t.Execute();
             Employee e = PayrollDatabase.GetEmployee(empId);
@@ -146,6 +146,31 @@ namespace PayrollTest_Nikolaev
             ServiceCharge sc = af.GetServiceCharge(new DateTime(2015, 11, 8));
             Assert.IsNotNull(sc);
             Assert.AreEqual(10, sc.Charge, .001);
+        }
+
+        [TestMethod]
+        public void TestChangeNameTransaction()
+        {
+            int empId = 1;
+            AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+            t.Execute();
+            ChangeNameTransaction cnt = new ChangeNameTransaction(empId, "Bob");
+            cnt.Execute();
+            Employee e = PayrollDatabase.GetEmployee(empId);
+            Assert.IsNotNull(e);
+            Assert.AreEqual("Bob", e.Name);
+        }
+        [TestMethod]
+        public void TestChangeAddressTransaction()
+        {
+            int empId = 1;
+            AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+            t.Execute();
+            ChangeAddressTransaction cnt = new ChangeAddressTransaction(empId, "Wallstreet");
+            cnt.Execute();
+            Employee e = PayrollDatabase.GetEmployee(empId);
+            Assert.IsNotNull(e);
+            Assert.AreEqual("Wallstreet", e.Address);
         }
     }
 }
