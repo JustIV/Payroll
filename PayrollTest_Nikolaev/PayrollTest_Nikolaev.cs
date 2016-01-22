@@ -128,5 +128,24 @@ namespace PayrollTest_Nikolaev
             Assert.IsNotNull(tc);
             Assert.AreEqual(10.0, tc.Amount);
         }
+
+        [TestMethod]
+        public void AddServiceCharge()
+        {
+            int empId = 9;
+            AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+            t.Execute();
+            Employee e = PayrollDatabase.GetEmployee(empId);
+            Assert.IsNotNull(e);
+            UnionAffiliation af = new UnionAffiliation();
+            e.Affiliation = af;
+            int memberId = 86;
+            PayrollDatabase.AddUnionMember(memberId, e);
+            ServiceChargeTransaction sct = new ServiceChargeTransaction(memberId, new DateTime(2015, 11, 8), 10);
+            sct.Execute();
+            ServiceCharge sc = af.GetServiceCharge(new DateTime(2015, 11, 8));
+            Assert.IsNotNull(sc);
+            Assert.AreEqual(10, sc.Charge, .001);
+        }
     }
 }

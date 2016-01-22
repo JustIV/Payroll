@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Payroll_Nikolaev
 {
-    public interface Affiliation
+    public interface NoAffiliation : Affiliation
     {
     }
 }
