@@ -18,5 +18,9 @@ namespace Payroll_Nikolaev
         {
             return employees[id] as Employee;
         }
+        public static void DeleteEmployee(int empid)
+        {
+            employees.Remove(empid);
+        }
     }
 }
