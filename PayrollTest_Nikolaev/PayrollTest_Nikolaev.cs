@@ -110,5 +110,23 @@ namespace PayrollTest_Nikolaev
             Assert.IsNotNull(tc);
             Assert.AreEqual(8.0, tc.Hours);
         }
+
+        [TestMethod]
+        public void SalesReceiptTransaction()
+        {
+            int empId = 1;
+            AddCommissionedEmployee t = new AddCommissionedEmployee(empId, "Bill", "Home", 2000, 0.25);
+            t.Execute();
+            SalesReceiptTransaction tct = new SalesReceiptTransaction(new DateTime(2015, 10, 31), 10.0, empId);
+            tct.Execute();
+            Employee e = PayrollDatabase.GetEmployee(empId);
+            Assert.IsNotNull(e);
+            PaymentClassification pc = e.Classification;
+            Assert.IsTrue(pc is CommissionedClassification);
+            CommissionedClassification cc = pc as CommissionedClassification;
+            SalesReceipt tc = cc.GetSalesReceipt(new DateTime(2015, 10, 31));
+            Assert.IsNotNull(tc);
+            Assert.AreEqual(10.0, tc.Amount);
+        }
     }
 }
