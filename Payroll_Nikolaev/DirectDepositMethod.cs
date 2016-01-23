@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Payroll_Nikolaev
 {
-    public class NoAffiliation : Affiliation
+    public class DirectDepositMethod : PaymentMethod
     {
+        public override string ToString()
+        {
+            return "DirectDeposit";
+        }
     }
 }
