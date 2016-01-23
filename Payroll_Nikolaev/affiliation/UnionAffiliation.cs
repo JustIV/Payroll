@@ -42,5 +42,10 @@ namespace Payroll_Nikolaev
         {
             get { return memberId; }
         }
+
+        public double CalculateDeductions(Paycheck paycheck)
+        {
+            return 0;
+        }
     }
 }

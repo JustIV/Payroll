@@ -12,6 +12,13 @@ namespace Payroll_Nikolaev
         private static Hashtable employees = new Hashtable();
         private static Hashtable unionMembers = new Hashtable();
 
+        public static ArrayList GetAllEmployeeIds()
+        {
+            ArrayList allEmplIds = new ArrayList();
+            allEmplIds.AddRange(employees.Keys);
+            return allEmplIds;
+        }
+
         public static void AddUnionMember(int id, Employee e)
         {
             unionMembers[id] = e;
@@ -31,10 +38,12 @@ namespace Payroll_Nikolaev
         {
             employees[id] = employee;
         }
+
         public static Employee GetEmployee(int id)
         {
             return employees[id] as Employee;
         }
+
         public static void DeleteEmployee(int empid)
         {
             employees.Remove(empid);

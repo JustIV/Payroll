@@ -11,6 +11,7 @@ namespace Payroll_Nikolaev
     {
         private readonly double salary;
         private readonly double commissionRate;
+
         private Hashtable salesReceipt = new Hashtable();
 
         public CommissionedClassification(double salary, double commissionRate)
@@ -42,6 +43,11 @@ namespace Payroll_Nikolaev
         public override string ToString()
         {
             return String.Format("${0} ${1}", commissionRate, salary);
+        }
+
+        public override double CalculatePay(Paycheck paycheck)
+        {
+            return salary;
         }
     }
 }

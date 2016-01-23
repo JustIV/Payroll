@@ -11,11 +11,18 @@ namespace Payroll_Nikolaev
         private readonly int empid;
         private string name;
         private string address;
-
         private PaymentClassification classification;
         private PaymentSchedule schedule;
         private PaymentMethod method;
-        private Affiliation affiliation;
+        private Affiliation affiliation = new NoAffiliation();
+
+        public Employee(int empid, string name, string address)
+        {
+            this.empid = empid;
+            this.name = name;
+            this.address = address;
+        }
+
         public PaymentClassification Classification
         {
             get { return classification; }
@@ -40,12 +47,6 @@ namespace Payroll_Nikolaev
             set { affiliation = value; }
         }
 
-        public Employee(int empid, string name, string address)
-        {
-            this.empid = empid;
-            this.name = name;
-            this.address = address;
-        }
         public string Name
         {
             get { return name; }
@@ -62,6 +63,7 @@ namespace Payroll_Nikolaev
         {
             get { return empid; }
         }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
@@ -72,6 +74,22 @@ namespace Payroll_Nikolaev
             builder.Append(schedule);
             builder.Append(" by ").Append(method);
             return builder.ToString();
+        }
+
+        public bool IsPayDate(DateTime date)
+        {
+            return schedule.IsPayDate(date);
+        }
+
+        public void PayDay(Paycheck paycheck)
+        {
+            double grossPay = classification.CalculatePay(paycheck);
+            double deductions = affiliation.CalculateDeductions(paycheck);
+            double netPay = grossPay - deductions;
+            paycheck.GrossPay = grossPay;
+            paycheck.Deductions = deductions;
+            paycheck.NetPay = netPay;
+            method.Pay(paycheck);
         }
     }
 }

@@ -12,5 +12,15 @@ namespace Payroll_Nikolaev
         {
             return "Biweekly";
         }
+
+        public bool IsPayDate(DateTime date)
+        {
+            return (date.DayOfWeek == DayOfWeek.Friday) && (date.Day % 2 == 0);
+        }
+
+        public DateTime GetPayPeriodStartDate(DateTime date)
+        {
+            return date.AddDays(-6);
+        }
     }
 }

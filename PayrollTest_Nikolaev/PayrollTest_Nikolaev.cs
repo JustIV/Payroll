@@ -281,5 +281,93 @@ namespace PayrollTest_Nikolaev
             Assert.IsNotNull(member);
             Assert.AreEqual(e, member);
         }
+
+        [TestMethod]
+        public void PaySingleSalariedEmployee()
+        {
+            int empid = 1;
+            AddSalariedEmployee t = new AddSalariedEmployee(empid, "Bill", "Home", 1000.00);
+            t.Execute();
+            DateTime payDate = new DateTime(2001, 11, 30);
+            PaydayTransaction pt = new PaydayTransaction(payDate);
+            pt.Execute();
+            Paycheck pc = pt.GetPaycheck(empid);
+            Assert.IsNotNull(pc);
+            Assert.AreEqual(payDate, pc.PayDate);
+            Assert.AreEqual(1000.00, pc.GrossPay, .001);
+            Assert.AreEqual("Hold", pc.GetField("Disposition"));
+            Assert.AreEqual(0.0, pc.Deductions, .001);
+            Assert.AreEqual(1000.00, pc.NetPay, .001);
+        }
+
+        [TestMethod]
+        public void PaySingleSalariedEmployeeOnWrongDate()
+        {
+            int empid = 1;
+            AddSalariedEmployee t = new AddSalariedEmployee(empid, "Bob", "Home", 1000.00);
+            t.Execute();
+            DateTime payDate = new DateTime(2015, 11, 8);
+            PaydayTransaction pt = new PaydayTransaction(payDate);
+            pt.Execute();
+            Paycheck pc = pt.GetPaycheck(empid);
+            Assert.IsNull(pc);
+        }
+
+        [TestMethod]
+        public void PayingSingleHourlyEmployeeNoTimeCards()
+        {
+            int empid = 1;
+            AddHourlyEmployee t = new AddHourlyEmployee(empid, "Билл", "Адрес", 15.25);
+            t.Execute();
+            DateTime payDate = new DateTime(2015, 11, 27);
+            PaydayTransaction pt = new PaydayTransaction(payDate);
+            pt.Execute();
+            Paycheck pc = pt.GetPaycheck(empid);
+            Assert.IsNotNull(pc);
+            Assert.AreEqual(payDate, pc.PayDate);
+            Assert.AreEqual(0.0, pc.GrossPay);
+            Assert.AreEqual("Hold", pc.GetField("Disposition"));
+            Assert.AreEqual(0.0, pc.Deductions, .001);
+            Assert.AreEqual(0.0, pc.NetPay, .001);
+        }
+
+        private void ValidateHourlyPaycheck(PaydayTransaction pt, int empid, DateTime payDate, double pay)
+        {
+            Paycheck pc = pt.GetPaycheck(empid);
+            Assert.IsNotNull(pc);
+            Assert.AreEqual(payDate, pc.PayDate);
+            Assert.AreEqual(pay, pc.GrossPay, .001);
+            Assert.AreEqual("Hold", pc.GetField("Disposition"));
+            Assert.AreEqual(0.0, pc.Deductions, .001);
+            Assert.AreEqual(pay, pc.NetPay, .001);
+        }
+
+        [TestMethod]
+        public void PaySingleHourlyEmployeeOneTimeCard()
+        {
+            int empId = 1;
+            AddHourlyEmployee t = new AddHourlyEmployee(empId, "Билл", "Домашний адрес", 15.25);
+            t.Execute();
+            DateTime payDate = new DateTime(2015, 12, 4);
+            TimeCardTransaction tc = new TimeCardTransaction(payDate, 2.0, empId);
+            tc.Execute();
+            PaydayTransaction pt = new PaydayTransaction(payDate);
+            pt.Execute();
+            ValidateHourlyPaycheck(pt, empId, payDate, 30.5);
+        }
+
+        [TestMethod]
+        public void TestPaySingleHourlyEmployeeOvertimeOneTimeCard()
+        {
+            int empId = 1;
+            AddHourlyEmployee t = new AddHourlyEmployee(empId, "Билл", "Домашний адрес", 15.25);
+            t.Execute();
+            DateTime payDate = new DateTime(2001, 11, 9);
+            TimeCardTransaction tc = new TimeCardTransaction(payDate, 9.0, empId);
+            tc.Execute();
+            PaydayTransaction pt = new PaydayTransaction(payDate);
+            pt.Execute();
+            ValidateHourlyPaycheck(pt, empId, payDate, (8 + 1.5) * 15.25);
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace Payroll_Nikolaev
 {
     public interface PaymentMethod
     {
+        void Pay(Paycheck paycheck);
     }
 }

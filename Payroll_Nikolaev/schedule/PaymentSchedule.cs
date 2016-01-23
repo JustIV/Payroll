@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Payroll_Nikolaev
 {
-    public class PaymentSchedule
+    public interface PaymentSchedule
     {
+        bool IsPayDate(DateTime date);
     }
 }

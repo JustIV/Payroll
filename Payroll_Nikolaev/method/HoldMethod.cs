@@ -10,7 +10,12 @@ namespace Payroll_Nikolaev
     {
         public override string ToString()
         {
-            return "hold";
+            return "Hold";
+        }
+
+        public void Pay(Paycheck paycheck)
+        {
+            paycheck.SetField("Disposition", "Hold");
         }
     }
 }

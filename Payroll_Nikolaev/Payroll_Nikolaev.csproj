@@ -60,6 +60,8 @@
     <Compile Include="employee\AddSalariedEmployee.cs" />
     <Compile Include="affiliation\Affiliation.cs" />
     <Compile Include="method\MailMethod.cs" />
+    <Compile Include="Paycheck.cs" />
+    <Compile Include="PaydayTransaction.cs" />
     <Compile Include="schedule\BiweeklySchedule.cs" />
     <Compile Include="classification\CommissionedClassification.cs" />
     <Compile Include="transaction\DeleteEmployeeTransaction.cs" />

@@ -12,5 +12,10 @@ namespace Payroll_Nikolaev
         {
             return "DirectDeposit";
         }
+
+        public void Pay(Paycheck paycheck)
+        {
+
+        }
     }
 }

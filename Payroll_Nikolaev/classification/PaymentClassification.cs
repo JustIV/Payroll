@@ -8,5 +8,6 @@ namespace Payroll_Nikolaev
 {
     public abstract class PaymentClassification
     {
+        public abstract double CalculatePay(Paycheck paycheck);
     }
 }

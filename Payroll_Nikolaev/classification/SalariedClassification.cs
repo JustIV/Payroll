@@ -23,5 +23,10 @@ namespace Payroll_Nikolaev
         {
             return String.Format("${0}", salary);
         }
+
+        public override double CalculatePay(Paycheck paycheck)
+        {
+            return salary;
+        }
     }
 }

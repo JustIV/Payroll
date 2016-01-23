@@ -11,6 +11,28 @@ namespace Payroll_Nikolaev
     {
         private readonly double hourlyRate;
         private Hashtable timeCards = new Hashtable();
+
+        public override double CalculatePay(Paycheck paycheck)
+        {
+            double totalPay = 0.0;
+            foreach (TimeCard timeCard in timeCards.Values)
+            {
+                if (timeCard.Date == paycheck.PayDate)
+                {
+                    totalPay += CalculatePayForTimeCard(timeCard);
+                }
+                return totalPay;
+            }
+            return 0; // check
+        }
+
+        private double CalculatePayForTimeCard(TimeCard card)
+        {
+            double overtimeHours = Math.Max(0.0, card.Hours - 8);
+            double normalHours = card.Hours - overtimeHours;
+            return hourlyRate * normalHours + hourlyRate * 1.5 * overtimeHours;
+        }
+
         public TimeCard GetTimeCard(DateTime date)
         {
             return timeCards[date] as TimeCard;

@@ -8,5 +8,6 @@ namespace Payroll_Nikolaev
 {
     public interface Affiliation
     {
+        double CalculateDeductions(Paycheck paycheck);
     }
 }

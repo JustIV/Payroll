@@ -8,6 +8,11 @@ namespace Payroll_Nikolaev
 {
     public class WeeklySchedule : PaymentSchedule
     {
+        public bool IsPayDate(DateTime date)
+        {
+            return date.DayOfWeek == DayOfWeek.Friday;
+        }
+
         public override string ToString()
         {
             return "weekly";

@@ -12,5 +12,10 @@ namespace Payroll_Nikolaev
         {
             return "Mail";
         }
+
+        public void Pay(Paycheck paycheck)
+        {
+
+        }
     }
 }
